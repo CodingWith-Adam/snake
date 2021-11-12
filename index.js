@@ -31,10 +31,31 @@ let score = 0;
 
 const gulpSound = new Audio("gulp.mp3");
 
+let previousXVelocity = 0;
+let previousYVelocity = 0;
+
 //game loop
 function drawGame() {
   xVelocity = inputsXVelocity;
   yVelocity = inputsYVelocity;
+
+  if (previousYVelocity === 1 && inputsYVelocity === -1) {
+    yVelocity = previousYVelocity;
+  }
+  if (previousYVelocity === -1 && inputsYVelocity === 1) {
+    yVelocity = previousYVelocity;
+  }
+
+  if (previousXVelocity === 1 && inputsXVelocity === -1) {
+    xVelocity = previousXVelocity;
+  }
+
+  if (previousXVelocity === -1 && inputsXVelocity === 1) {
+    xVelocity = previousXVelocity;
+  }
+
+  previousYVelocity = yVelocity;
+  previousXVelocity = xVelocity;
 
   changeSnakePosition();
   let result = isGameOver();
@@ -160,10 +181,10 @@ function checkAppleCollision() {
 document.body.addEventListener("keydown", keyDown);
 
 function keyDown(event) {
+  console.log(inputsXVelocity, inputsYVelocity);
   //up
   if (event.keyCode == 38 || event.keyCode == 87) {
     //87 is w
-    if (inputsYVelocity == 1) return;
     inputsYVelocity = -1;
     inputsXVelocity = 0;
   }
@@ -171,7 +192,6 @@ function keyDown(event) {
   //down
   if (event.keyCode == 40 || event.keyCode == 83) {
     // 83 is s
-    if (inputsYVelocity == -1) return;
     inputsYVelocity = 1;
     inputsXVelocity = 0;
   }
@@ -179,7 +199,6 @@ function keyDown(event) {
   //left
   if (event.keyCode == 37 || event.keyCode == 65) {
     // 65 is a
-    if (inputsXVelocity == 1) return;
     inputsYVelocity = 0;
     inputsXVelocity = -1;
   }
@@ -187,7 +206,6 @@ function keyDown(event) {
   //right
   if (event.keyCode == 39 || event.keyCode == 68) {
     //68 is d
-    if (inputsXVelocity == -1) return;
     inputsYVelocity = 0;
     inputsXVelocity = 1;
   }
