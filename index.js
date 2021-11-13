@@ -39,27 +39,33 @@ function drawGame() {
   xVelocity = inputsXVelocity;
   yVelocity = inputsYVelocity;
 
-  if (previousYVelocity === 1 && inputsYVelocity === -1) {
-    yVelocity = previousYVelocity;
-  }
-  if (previousYVelocity === -1 && inputsYVelocity === 1) {
-    yVelocity = previousYVelocity;
-  }
-
-  if (previousXVelocity === 1 && inputsXVelocity === -1) {
+  //Was moving right and try to move left
+  if (previousXVelocity === 1 && xVelocity === -1) {
     xVelocity = previousXVelocity;
   }
 
-  if (previousXVelocity === -1 && inputsXVelocity === 1) {
+  //Was moving left and try to move right
+  if (previousXVelocity === -1 && xVelocity === 1) {
     xVelocity = previousXVelocity;
   }
 
-  previousYVelocity = yVelocity;
+  //Was moving up and try to move down
+  if (previousYVelocity === -1 && yVelocity === 1) {
+    yVelocity = previousYVelocity;
+  }
+
+  //Was moving down and try to move up
+  if (previousYVelocity === 1 && yVelocity === -1) {
+    yVelocity = previousYVelocity;
+  }
+
   previousXVelocity = xVelocity;
+  previousYVelocity = yVelocity;
 
   changeSnakePosition();
   let result = isGameOver();
   if (result) {
+    document.body.removeEventListener("keydown", keyDown);
     return;
   }
 
@@ -151,7 +157,7 @@ function drawSnake() {
 
   snakeParts.push(new SnakePart(headX, headY)); //put an item at the end of the list next to the head
   while (snakeParts.length > tailLength) {
-    snakeParts.shift(); // remove the furthet item from the snake parts if have more than our tail size.
+    snakeParts.shift(); // remove the furthest item from the snake parts if have more than our tail size.
   }
 
   ctx.fillStyle = "orange";
