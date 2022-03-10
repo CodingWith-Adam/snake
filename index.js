@@ -182,6 +182,7 @@ function checkAppleCollision() {
     gulpSound.play();
   }
 }
+
 function generateApplePosition() {
   let newAppleX = Math.floor(Math.random() * tileCount);
   let newAppleY = Math.floor(Math.random() * tileCount);
