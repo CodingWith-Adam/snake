@@ -176,18 +176,35 @@ function drawApple() {
 
 function checkAppleCollision() {
   if (appleX === headX && appleY == headY) {
-    appleX = Math.floor(Math.random() * tileCount);
-    appleY = Math.floor(Math.random() * tileCount);
+    generateApplePosition();
     tailLength++;
     score++;
     gulpSound.play();
+  }
+}
+function generateApplePosition() {
+  let newAppleX = Math.floor(Math.random() * tileCount);
+  let newAppleY = Math.floor(Math.random() * tileCount);
+
+  const isAppleCollidingWithSnakePart = snakeParts.some(
+    (part) => part.x === newAppleX || part.y === newAppleY
+  );
+
+  if (headX == newAppleX && headY == newAppleY) {
+    console.log("Bad apple position head");
+    generateApplePosition();
+  } else if (isAppleCollidingWithSnakePart) {
+    console.log("Bad apple position part");
+    generateApplePosition();
+  } else {
+    appleX = newAppleX;
+    appleY = newAppleY;
   }
 }
 
 document.body.addEventListener("keydown", keyDown);
 
 function keyDown(event) {
-  console.log(inputsXVelocity, inputsYVelocity);
   //up
   if (event.keyCode == 38 || event.keyCode == 87) {
     //87 is w
